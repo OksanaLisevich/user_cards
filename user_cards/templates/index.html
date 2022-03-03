@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User cards</title>
+</head>
+<body>
+
+<table border="1" cellpadding="5" >
+    <thead>
+    <tr>
+        <td>
+            email
+        </td>
+        <td>
+            card number
+        </td>
+        <td>
+            sum
+        </td>
+        {% if user.is_authenticated %}
+            <td>Add sum</td>
+            <td></td>
+        {% endif %}
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for card in all_cards %}
+        <tr>
+        <td>{{ card.owner.email }}</td>
+        <td>{{ card.card_number }}</td>
+        <td>{{ card.card_total_sum|default_if_none:0 }}</td>
+        {% if user.is_authenticated %}
+            <form action="/user_cards/{{ card.id }}" method="post">
+            <td>
+                <input type="hidden" name="card" value="{{ card.id }}">
+                <input type="text" name="sum">
+            </td>
+            <td>
+                <button type="submit">+</button>
+            </td>
+
+            </form>
+        {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+</body>
+</html>
