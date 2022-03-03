@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<table border="1" cellpadding="5" >
+<table border="1" cellpadding="5" width="75%" align="center">
     <thead>
     <tr>
         <td>
@@ -33,6 +33,7 @@
         <td>{{ card.card_total_sum|default_if_none:0 }}</td>
         {% if user.is_authenticated %}
             <form action="/user_cards/{{ card.id }}" method="post">
+            {% csrf_token %}
             <td>
                 <input type="hidden" name="card" value="{{ card.id }}">
                 <input type="text" name="sum">
@@ -48,6 +49,17 @@
     </tbody>
 </table>
 
+<div style="margin: 15px; padding: 15px">
+     <form action="/user_cards/add_card" method='post' >
+         {% csrf_token %}
+
+         <label>Card owner</label>
+         <div>{{card_form.owner}}</div>
+         <label>Card number</label>
+         <div>{{card_form.card_number}}</div>
+         <button type='submit' >Add card</button>
+     </form>
+ </div>
 
 </body>
 </html>
